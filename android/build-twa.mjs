@@ -26,6 +26,7 @@ twa.appVersionCode = VERSION_CODE;
 twa.appVersionName = VERSION_NAME;
 twa.signingKey = { path: KEYSTORE_PATH, alias: KEY_ALIAS };
 twa.enableNotifications = false;
+twa.minSdkVersion = 24; // androidbrowserhelper 2.7+ butuh minimal Android 7.0 (API 24)
 
 const errors = twa.validate();
 if (errors) throw new Error('Konfigurasi TWA tidak valid: ' + errors);
