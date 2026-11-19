@@ -33,21 +33,20 @@ jobs:
       PACKAGE_ID: id.co.mallaofficial.portal
       MANIFEST_URL: https://mallafashionofficialid-alt.github.io/Porta-Malla/portal-malla-app/manifest.webmanifest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: "20"
-
-      - uses: android-actions/setup-android@v3
+          node-version: "22"
 
       - name: Siapkan keystore
         run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"; ls "$ANDROID_HOME/build-tools"
           if [ ${#KS_PASS} -lt 6 ]; then
             echo "::error::Secret KEYSTORE_PASSWORD belum diisi atau kurang dari 6 karakter."
             exit 1
