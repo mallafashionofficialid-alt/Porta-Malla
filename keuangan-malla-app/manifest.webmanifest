@@ -1,0 +1,19 @@
+{
+  "id": "/Porta-Malla/keuangan-malla-app/",
+  "name": "Keuangan Malla",
+  "short_name": "Keuangan Malla",
+  "description": "Keuangan Malla 2026 — ringkasan, gross profit, OPEX, CapEx, iklan & affiliate (PT Maha Mode Indonesia)",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#15181F",
+  "theme_color": "#15181F",
+  "lang": "id",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
