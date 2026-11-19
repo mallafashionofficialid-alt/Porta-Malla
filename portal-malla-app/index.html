@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Portal Malla Official</title>
+  <meta name="theme-color" content="#1C1813">
+  <meta name="description" content="Portal internal PT Maha Mode Indonesia / Malla Official">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Portal Malla">
+  <style>
+    html,body{margin:0;height:100%;background:#1C1813;overflow:hidden}
+    body{padding-top:env(safe-area-inset-top);box-sizing:border-box}
+    #app{border:0;width:100%;height:100%;display:block;background:#F4F2EE}
+    .layer{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+      background:#1C1813;color:#E3B341;font:600 15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;padding:24px}
+    .layer img{width:88px;height:88px;border-radius:20px}
+    .spin{width:26px;height:26px;border:3px solid #3A3326;border-top-color:#E3B341;border-radius:50%;animation:s .9s linear infinite}
+    @keyframes s{to{transform:rotate(360deg)}}
+    #offline,#slow{display:none}
+    #offline div,#slow div{color:#F7F3EA;font-weight:500}
+    .layer button{background:#E3B341;color:#2A1F08;border:0;border-radius:10px;padding:11px 22px;font-weight:700;font-size:15px}
+  </style>
+</head>
+<body>
+  <div id="splash" class="layer">
+    <img src="icons/icon-192.png" alt="">
+    <span>Portal Malla Official</span>
+    <span class="spin"></span>
+  </div>
+  <div id="offline" class="layer">
+    <img src="icons/icon-192.png" alt="">
+    <div>Tidak ada koneksi internet.<br>Portal butuh internet karena datanya langsung dari spreadsheet.</div>
+    <button onclick="location.reload()">Coba lagi</button>
+  </div>
+  <div id="slow" class="layer">
+    <img src="icons/icon-192.png" alt="">
+    <div>Portal lambat termuat.<br>Periksa koneksi, lalu coba lagi.</div>
+    <button onclick="location.reload()">Coba lagi</button>
+  </div>
+
+  <iframe id="app" title="Portal Malla Official" allow="clipboard-read; clipboard-write; camera; geolocation; fullscreen"></iframe>
+
+  <script>
+    // URL Web App Apps Script (deployment /exec). Ganti di sini hanya kalau URL deployment berubah.
+    const PORTAL_URL = "https://script.google.com/macros/s/AKfycbye-UOodtGAJGWPQXhzdC_VWH35rf2Nyqadal1f4QZjaknOdd3712Ta1aQiaQk3FlJIIQ/exec";
+
+    const $ = id => document.getElementById(id);
+    let slowT;
+    function show(id){ ['splash','offline','slow'].forEach(x => $(x).style.display = (x === id ? 'flex' : 'none')); }
+    function load(){
+      if(!navigator.onLine){ show('offline'); return; }
+      show('splash');
+      $('app').src = PORTAL_URL;
+      clearTimeout(slowT);
+      slowT = setTimeout(() => { if($('splash').style.display !== 'none') show('slow'); }, 30000);
+    }
+    $('app').addEventListener('load', () => { clearTimeout(slowT); show(null); });
+    addEventListener('offline', () => show('offline'));
+    addEventListener('online', load);
+    load();
+    if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+  </script>
+</body>
+</html>
