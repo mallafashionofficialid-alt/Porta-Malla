@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title>Pusat Operasional Malla</title>
+  <meta name="theme-color" content="#15181F">
+  <meta name="description" content="Pusat Operasional PT Maha Mode Indonesia / Malla Official — barang masuk, pengiriman, resi batal & retur">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Pusat Operasional">
+  <style>
+    html,body{margin:0;height:100%;background:#15181F;overflow:hidden}
+    /* ruang aman untuk poni / home-indicator iPhone & gesture bar Android */
+    body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);box-sizing:border-box}
+    #app{border:0;width:100%;height:100%;display:block;background:#15181F}
+    .layer{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+      background:#15181F;color:#C7A46A;font:600 15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;padding:24px}
+    .layer img{width:88px;height:88px;border-radius:20px}
+    .layer small{color:#8B92A1;font-weight:500;font-size:12px;margin-top:-8px}
+    .spin{width:26px;height:26px;border:3px solid #2A2F3A;border-top-color:#C7A46A;border-radius:50%;animation:s .9s linear infinite}
+    @keyframes s{to{transform:rotate(360deg)}}
+    #offline,#slow{display:none}
+    #offline div,#slow div{color:#E9EBF0;font-weight:500}
+    .layer button{background:#C7A46A;color:#1A1408;border:0;border-radius:10px;padding:11px 22px;font-weight:700;font-size:15px}
+  </style>
+</head>
+<body>
+  <div id="splash" class="layer">
+    <img src="icons/icon-192.png" alt="">
+    <span>Pusat Operasional</span>
+    <small>Malla Official</small>
+    <span class="spin"></span>
+  </div>
+  <div id="offline" class="layer">
+    <img src="icons/icon-192.png" alt="">
+    <div>Tidak ada koneksi internet.<br>Aplikasi butuh internet karena datanya langsung dari spreadsheet.</div>
+    <button onclick="location.reload()">Coba lagi</button>
+  </div>
+  <div id="slow" class="layer">
+    <img src="icons/icon-192.png" alt="">
+    <div>Aplikasi lambat termuat.<br>Periksa koneksi, lalu coba lagi.</div>
+    <button onclick="location.reload()">Coba lagi</button>
+  </div>
+
+  <iframe id="app" title="Pusat Operasional Malla" allow="clipboard-read; clipboard-write; camera; fullscreen"></iframe>
+
+  <script>
+    // URL Web App Apps Script (deployment /exec) — database tetap di spreadsheet Pusat Operasional.
+    // Ganti di sini hanya kalau URL deployment berubah.
+    const APP_URL = "https://script.google.com/macros/s/AKfycbxNwXaoUNHoeEHolchhlQo9l95AX0W4MMbRpfDctekBFzpkHxUxTdGheOg5YMZqgXSt/exec";
+
+    const $ = id => document.getElementById(id);
+    let slowT;
+    function show(id){ ['splash','offline','slow'].forEach(x => $(x).style.display = (x === id ? 'flex' : 'none')); }
+    function load(){
+      if(!navigator.onLine){ show('offline'); return; }
+      show('splash');
+      $('app').src = APP_URL;
+      clearTimeout(slowT);
+      slowT = setTimeout(() => { if($('splash').style.display !== 'none') show('slow'); }, 30000);
+    }
+    $('app').addEventListener('load', () => { clearTimeout(slowT); show(null); });
+    addEventListener('offline', () => show('offline'));
+    addEventListener('online', load);
+    load();
+    if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+  </script>
+</body>
+</html>

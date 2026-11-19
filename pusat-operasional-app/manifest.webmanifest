@@ -1,0 +1,19 @@
+{
+  "id": "/Porta-Malla/pusat-operasional-app/",
+  "name": "Pusat Operasional Malla",
+  "short_name": "Pusat Operasional",
+  "description": "Barang masuk, pengiriman, resi batal & retur — PT Maha Mode Indonesia / Malla Official",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#15181F",
+  "theme_color": "#15181F",
+  "lang": "id",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
